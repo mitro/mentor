@@ -7,15 +7,15 @@ router.post('/', (req, res) => {
     const area = new Area();
     area.name = req.body.name;
 
-    area.save((err) => {
-        if (err) {
+    area.save()
+        .then(() => {
+            res.json({
+                message: 'Area created'
+            });
+        })
+        .catch((err) => {
             res.send(err);
-        }
-
-        res.json({
-            message: 'Area created'
         });
-    });
 });
 
 module.exports = router;

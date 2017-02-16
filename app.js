@@ -5,6 +5,9 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/mentor');
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,8 +17,6 @@ router.use('/status', require('./controllers/status'));
 router.use('/area', require('./controllers/area'));
 
 app.use('/api', router);
-
-mongoose.connect('mongodb://localhost/mentor');
 
 app.listen(3000, () => {
     console.log('Listening on 3000...');
