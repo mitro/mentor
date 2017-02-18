@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 router.use('/status', require('./controllers/status'));
 router.use('/area', require('./controllers/area'));
 router.use('/mentor', require('./controllers/mentor'));
+router.use('/student', require('./controllers/student'));
 
 app.use('/api', router);
 
