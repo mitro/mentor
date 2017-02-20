@@ -1,18 +1,25 @@
 'use strict';
 
 const router = require('express').Router();
+const User = require('../models/user');
 const Student = require('../models/student');
 
 router.post('/', (req, res) => {
-    const student = new Student();
+    const user = new User();
+    user.login = req.body.login;
+    user.password = req.body.password;
 
-    student.login = req.body.login;
-    student.password = req.body.password;
-    student.name = req.body.name;
-    student.email = req.body.email;
-    student.location = req.body.location;
+    user.save()
+        .then(() => {
+            const student = new Student();
 
-    student.save()
+            student.userId = user._id;
+            student.name = req.body.name;
+            student.email = req.body.email;
+            student.location = req.body.location;
+
+            return student.save();
+        })
         .then(() => {
             res.json({
                 message: 'Student registered'

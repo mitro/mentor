@@ -2,18 +2,26 @@
 
 const router = require('express').Router();
 const Types = require('mongoose').Types;
+const User = require('../models/user');
 const Mentor = require('../models/mentor');
 
 router.post('/', (req, res) => {
-    const mentor = new Mentor();
+    const user = new User();
 
-    mentor.login = req.body.login;
-    mentor.password = req.body.password;
-    mentor.name = req.body.name;
-    mentor.email = req.body.email;
-    mentor.areaIds = req.body.areaIds.map((id) => Types.ObjectId(id));
+    user.login = req.body.login;
+    user.password = req.body.password;
 
-    mentor.save()
+    user.save()
+        .then(() => {
+            const mentor = new Mentor();
+
+            mentor.userId = user._id;
+            mentor.name = req.body.name;
+            mentor.email = req.body.email;
+            mentor.areaIds = req.body.areaIds.map((id) => Types.ObjectId(id));
+
+            return mentor.save();
+        })
         .then(() => {
             res.json({
                 message: 'Mentor registered'

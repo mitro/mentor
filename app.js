@@ -17,6 +17,7 @@ router.use('/status', require('./controllers/status'));
 router.use('/area', require('./controllers/area'));
 router.use('/mentor', require('./controllers/mentor'));
 router.use('/student', require('./controllers/student'));
+router.use('/auth', require('./controllers/auth'));
 
 app.use('/api', router);
 

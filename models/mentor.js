@@ -4,8 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const MentorSchema = new Schema({
-    login: String,
-    password: String,
+    userId: {type: Schema.Types.ObjectId, ref: 'User'},
     name: String,
     email: String,
     areaIds: [{type: Schema.Types.ObjectId, ref: 'Area'}]
