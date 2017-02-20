@@ -4,9 +4,10 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('config');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/mentor');
+mongoose.connect(config.DbHost);
 
 const app = express();
 
@@ -24,3 +25,5 @@ app.use('/api', router);
 app.listen(3000, () => {
     console.log('Listening on 3000...');
 });
+
+module.exports = app;
