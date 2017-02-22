@@ -5,12 +5,14 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const config = require('config');
+const morgan = require('morgan');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.DbHost);
 
 const app = express();
 
+app.use(morgan('short'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
