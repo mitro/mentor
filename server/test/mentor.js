@@ -3,11 +3,11 @@
 process.env.NODE_ENV = 'test';
 
 const mongoose = require('mongoose');
-const Mentor = require('../models/mentor');
+const Mentor = require('../src/models/mentor');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../app');
+const app = require('../src/app');
 const should = chai.should();
 
 chai.use(chaiHttp);
