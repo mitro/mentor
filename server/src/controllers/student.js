@@ -4,6 +4,16 @@ const router = require('express').Router();
 const User = require('../models/user');
 const Student = require('../models/student');
 
+router.get('/', (req, res) => {
+    Student.find({})
+        .then((users) => {
+            res.json(users);
+        })
+        .catch((err) => {
+            res.send(err);
+        });
+});
+
 router.post('/', (req, res) => {
     const user = new User();
     user.login = req.body.login;
