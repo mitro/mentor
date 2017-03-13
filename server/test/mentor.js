@@ -4,6 +4,7 @@ process.env.NODE_ENV = 'test';
 
 const mongoose = require('mongoose');
 const Mentor = require('../src/models/mentor');
+const Area = require('../src/models/area');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -38,5 +39,43 @@ describe('Mentors', () => {
                     done();
                 });
         });
+    });
+
+    describe('GET /api/mentor', () => {
+        it('should list mentors', (done) => {
+            const mlArea = new Area();
+            mlArea.name  = "Machine learning";
+            const webArea = new Area();
+            webArea.name = "Web development";
+
+            Promise.all([
+                mlArea.save(),
+                webArea.save()
+            ])
+                .then(() => {
+                    const mentor = new Mentor();
+                    mentor.name = 'Vikentiy';
+                    mentor.email = 'vik@email.me';
+                    mentor.areaIds = [mlArea._id, webArea._id]
+                    return mentor.save();
+                })
+                .then(() => {
+                    chai.request(app)
+                        .get('/api/mentor')
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('array');
+                            res.body.should.have.deep.property('[0]._id');
+                            res.body.should.have.deep.property('[0].name').eql('Vikentiy');
+                            res.body.should.have.deep.property('[0].email').eql('vik@email.me');
+                            res.body.should.have.deep.property('[0].areas[0]').eql('Machine learning');
+                            res.body.should.have.deep.property('[0].areas[1]').eql('Web development');
+                            done();
+                        });
+                })
+                .catch((err) => {
+                    done();
+                });
+       });
     });
 });

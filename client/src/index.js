@@ -9,6 +9,7 @@ import createHistory from 'history/createBrowserHistory';
 import configureStore from './configureStore';
 import App from './components/App.jsx';
 import Students from './components/Students.jsx';
+import Mentors from './components/Mentors.jsx';
 
 const store = configureStore();
 
@@ -20,6 +21,7 @@ render(
             <div>
                 <Route exact path='/' component={App}/>
                 <Route path='/students' component={Students}/>
+                <Route path='/mentors' component={Mentors}/>
             </div>
         </Router>
     </Provider>,

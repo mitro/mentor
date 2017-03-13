@@ -5,6 +5,25 @@ const Types = require('mongoose').Types;
 const User = require('../models/user');
 const Mentor = require('../models/mentor');
 
+router.get('/', (req, res) => {
+    Mentor.find({})
+        .populate('areaIds')
+        .then((mentors) => {
+            mentors = mentors.map((mentor) => {
+                return {
+                    _id: mentor._id,
+                    name: mentor.name,
+                    email: mentor.email,
+                    areas: mentor.areaIds.map((area) => area.name)
+                }
+            });
+            res.json(mentors);
+        })
+        .catch((err) => {
+            res.send(err);
+        });
+});
+
 router.post('/', (req, res) => {
     const user = new User();
 

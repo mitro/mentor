@@ -1,7 +1,7 @@
 'use strict';
 
 import { combineReducers } from 'redux';
-import { RECEIVE_STUDENTS } from './actions';
+import { RECEIVE_STUDENTS, RECEIVE_MENTORS } from './actions';
 
 function students(state = [], action) {
     switch (action.type) {
@@ -12,8 +12,18 @@ function students(state = [], action) {
     }
 }
 
+function mentors(state = [], action) {
+    switch (action.type) {
+        case RECEIVE_MENTORS:
+            return [...action.mentors];
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
-   students
+    students,
+    mentors
 });
 
 export default rootReducer;
