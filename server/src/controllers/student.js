@@ -15,6 +15,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    console.log(req.body);
     const user = new User();
     user.login = req.body.login;
     user.password = req.body.password;

@@ -1,5 +1,3 @@
-'use strict';
-
 import fetch from 'isomorphic-fetch';
 
 export const RECEIVE_STUDENTS = "RECEIVE_STUDENTS";
@@ -18,6 +16,19 @@ export function fetchStudents() {
             .then(response => response.json())
             .then(json => dispatch(receiveStudents(json)));
     }
+}
+
+export function registerStudent(student) {
+    console.log(student);
+    return dispatch => {
+        return fetch('http://localhost:3000/api/student', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(student)
+            });
+    };
 }
 
 function receiveMentors(json) {

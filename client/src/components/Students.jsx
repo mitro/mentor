@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -16,7 +14,7 @@ class Students extends Component {
         return (
             <ul>
                 {students.map((student, i) =>
-                    <li key='i'>{student.name} | {student.email} | {student.location}</li>
+                    <li key={i}>{student.name} | {student.email} | {student.location}</li>
                 )}
             </ul>
         );

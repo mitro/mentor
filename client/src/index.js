@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -10,6 +8,7 @@ import configureStore from './configureStore';
 import App from './components/App.jsx';
 import Students from './components/Students.jsx';
 import Mentors from './components/Mentors.jsx';
+import StudentRegistration from './components/StudentRegistration.jsx';
 
 const store = configureStore();
 
@@ -20,8 +19,9 @@ render(
         <Router history={history}>
             <div>
                 <Route exact path='/' component={App}/>
-                <Route path='/students' component={Students}/>
-                <Route path='/mentors' component={Mentors}/>
+                <Route exact path='/students' component={Students}/>
+                <Route exact path='/students/registration' component={StudentRegistration}/>
+                <Route exact path='/mentors' component={Mentors}/>
             </div>
         </Router>
     </Provider>,

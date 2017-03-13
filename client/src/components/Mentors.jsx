@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -16,7 +14,7 @@ class Mentors extends Component {
         return (
             <ul>
                 {mentors.map((mentor, i) =>
-                    <li key='i'>{mentor.name} | {mentor.email} | {mentor.areas.join(', ')}</li>
+                    <li key={i}>{mentor.name} | {mentor.email} | {mentor.areas.join(', ')}</li>
                 )}
             </ul>
         );
