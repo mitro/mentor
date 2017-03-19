@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const jwt = require('express-jwt');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -14,13 +15,22 @@ const app = express();
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     next();
 });
 
 app.use(morgan('short'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(jwt({secret: 'doitagain'}).unless(req => {
+    return (
+        req.originalUrl == '/api/auth/login' ||
+        req.originalUrl == '/api/area' && req.method == 'GET' ||
+        req.originalUrl == '/api/mentor' && req.method == 'POST' ||
+        req.originalUrl == '/api/student' && req.method == 'POST'
+    );
+}));
 
 router.use('/status', require('./controllers/status'));
 router.use('/area', require('./controllers/area'));

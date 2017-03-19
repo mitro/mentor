@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_STUDENTS, RECEIVE_MENTORS, RECEIVE_AREAS } from './actions';
+import { RECEIVE_STUDENTS, RECEIVE_MENTORS, RECEIVE_AREAS, PROCESS_LOGIN_SUCCESS, PROCESS_LOGIN_FAILURE } from './actions';
 
 function students(state = [], action) {
     switch (action.type) {
@@ -28,10 +28,28 @@ function areas(state = [], action) {
     }
 }
 
+function auth(state = {}, action) {
+    switch (action.type) {
+        case PROCESS_LOGIN_SUCCESS:
+            return {
+                loginFailed: false,
+                isLoggedIn: true,
+                jwt: action.jwt
+            };
+        case PROCESS_LOGIN_FAILURE:
+            return Object.assign({}, state, {
+                loginFailed: true
+            });
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     students,
     mentors,
-    areas
+    areas,
+    auth
 });
 
 export default rootReducer;

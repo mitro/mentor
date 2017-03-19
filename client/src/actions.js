@@ -3,6 +3,8 @@ import fetch from 'isomorphic-fetch';
 export const RECEIVE_STUDENTS = 'RECEIVE_STUDENTS';
 export const RECEIVE_MENTORS = 'RECEIVE_MENTORS';
 export const RECEIVE_AREAS = 'RECEIVE_AREAS';
+export const PROCESS_LOGIN_SUCCESS = 'PROCESS_LOGIN_SUCCESS';
+export const PROCESS_LOGIN_FAILURE = 'PROCESS_LOGIN_FAILURE';
 
 function receiveStudents(json) {
     return {
@@ -12,8 +14,13 @@ function receiveStudents(json) {
 }
 
 export function fetchStudents() {
-    return dispatch => {
-        return fetch('http://localhost:3000/api/student')
+    return (dispatch, getState) => {
+        const { auth } = getState();
+
+        return fetch('http://localhost:3000/api/student', {
+            headers: {
+                'Authorization': `Bearer ${auth.jwt}`
+            }})
             .then(response => response.json())
             .then(json => dispatch(receiveStudents(json)));
     }
@@ -39,8 +46,13 @@ function receiveMentors(json) {
 }
 
 export function fetchMentors() {
-    return dispatch => {
-        return fetch('http://localhost:3000/api/mentor')
+    return (dispatch, getState) => {
+        const { auth } = getState();
+
+        return fetch('http://localhost:3000/api/mentor', {
+            headers: {
+                'Authorization': `Bearer ${auth.jwt}`
+            }})
             .then(response => response.json())
             .then(json => dispatch(receiveMentors(json)));
     }
@@ -70,5 +82,50 @@ export function fetchAreas() {
         return fetch('http://localhost:3000/api/area')
             .then(response => response.json())
             .then(json => dispatch(receiveAreas(json)));
+    }
+}
+
+function processLoginSuccess(jwt) {
+    return {
+        type: PROCESS_LOGIN_SUCCESS,
+        jwt: jwt
+    };
+}
+
+function processLoginFailure() {
+    return {
+        type: PROCESS_LOGIN_FAILURE
+    };
+}
+
+export function submitUserCredentials(login, password) {
+    return dispatch => {
+        fetch('http://localhost:3000/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                login: login,
+                password: password
+            })
+        })
+            .then(res => {
+                if (res.status == 200) {
+                    return res.json();
+                }
+
+                var error = new Error(res.statusText);
+                error.response = res;
+                throw error;
+            })
+            .then(json => {
+                const jwt = json.token;
+                console.log(json);
+                dispatch(processLoginSuccess(jwt));
+            })
+            .catch(err => {
+                dispatch(processLoginFailure());
+            });
     }
 }
