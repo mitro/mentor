@@ -1,7 +1,8 @@
 import fetch from 'isomorphic-fetch';
 
-export const RECEIVE_STUDENTS = "RECEIVE_STUDENTS";
-export const RECEIVE_MENTORS = "RECEIVE_MENTORS";
+export const RECEIVE_STUDENTS = 'RECEIVE_STUDENTS';
+export const RECEIVE_MENTORS = 'RECEIVE_MENTORS';
+export const RECEIVE_AREAS = 'RECEIVE_AREAS';
 
 function receiveStudents(json) {
     return {
@@ -19,7 +20,6 @@ export function fetchStudents() {
 }
 
 export function registerStudent(student) {
-    console.log(student);
     return dispatch => {
         return fetch('http://localhost:3000/api/student', {
                 method: 'POST',
@@ -43,5 +43,32 @@ export function fetchMentors() {
         return fetch('http://localhost:3000/api/mentor')
             .then(response => response.json())
             .then(json => dispatch(receiveMentors(json)));
+    }
+}
+
+export function registerMentor(mentor) {
+    return dispatch => {
+        return fetch ('http://localhost:3000/api/mentor', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(mentor)
+        });
+    };
+}
+
+function receiveAreas(json) {
+    return {
+        type: RECEIVE_AREAS,
+        areas: json
+    }
+}
+
+export function fetchAreas() {
+    return dispatch => {
+        return fetch('http://localhost:3000/api/area')
+            .then(response => response.json())
+            .then(json => dispatch(receiveAreas(json)));
     }
 }

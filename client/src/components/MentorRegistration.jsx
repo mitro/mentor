@@ -1,26 +1,47 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
-import { registerStudent } from '../actions';
+import { registerMentor, fetchAreas } from '../actions';
 
-class StudentRegistration extends Component {
+class MentorRegistration extends Component{
+
+    componentDidMount() {
+        const { dispatch } = this.props;
+        dispatch(fetchAreas());
+    }
+
     handleSubmit(e) {
         e.preventDefault();
 
-        const student = {
+        const mentor = {
             login: this.getInputValue('login'),
             password: this.getInputValue('password'),
             name: this.getInputValue('name'),
             email: this.getInputValue('email'),
-            location: this.getInputValue('location'),
+            areaIds: this.getSelectedAreas()
         };
 
         const { dispatch } = this.props;
-        dispatch(registerStudent(student));
+
+        dispatch(registerMentor(mentor));
     }
 
     getInputValue(id) {
         return document.getElementById(id).value;
+    }
+
+    getSelectedAreas(){
+        const result = [];
+        const areasSelect = document.getElementById('areas');
+        const options = areasSelect.options;
+
+        for (const option of options) {
+            if (option.selected) {
+                result.push(option.value);
+            }
+        }
+
+        return result;
     }
 
     render() {
@@ -34,16 +55,26 @@ class StudentRegistration extends Component {
                 <input type='text' id='name' name='name'/><br />
                 <label>Email</label>
                 <input type='email' id='email' name='email'/><br />
-                <label>Location</label>
-                <input type='text' id='location' name='location'/><br />
+                <label>Areas</label>
+                <select id='areas' multiple>
+                    {this.props.areas.map((area, i) =>
+                        <option key={i} value={area._id}>{area.name}</option>
+                    )}
+                </select>
                 <input type='submit' value='Register'/>
             </form>
-        );
+        )
     }
 }
 
-StudentRegistration.propTypes = {
+MentorRegistration.propTypes = {
     dispatch: PropTypes.func.isRequired
 };
 
-export default connect()(StudentRegistration);
+function mapStateToProps(state) {
+    return {
+        areas: state.areas
+    };
+}
+
+export default connect(mapStateToProps)(MentorRegistration);

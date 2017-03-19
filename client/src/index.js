@@ -9,6 +9,7 @@ import App from './components/App.jsx';
 import Students from './components/Students.jsx';
 import Mentors from './components/Mentors.jsx';
 import StudentRegistration from './components/StudentRegistration.jsx';
+import MentorRegistration from './components/MentorRegistration.jsx';
 
 const store = configureStore();
 
@@ -22,6 +23,7 @@ render(
                 <Route exact path='/students' component={Students}/>
                 <Route exact path='/students/registration' component={StudentRegistration}/>
                 <Route exact path='/mentors' component={Mentors}/>
+                <Route exact path='/mentors/registration' component={MentorRegistration}/>
             </div>
         </Router>
     </Provider>,

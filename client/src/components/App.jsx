@@ -6,6 +6,7 @@ class App extends React.Component {
         return (
             <div>
                 <Link to='students/registration'>Student registration</Link><br />
+                <Link to='mentors/registration'>Mentor registration</Link><br />
                 <Link to='students'>Students</Link><br />
                 <Link to='mentors'>Mentors</Link><br />
             </div>

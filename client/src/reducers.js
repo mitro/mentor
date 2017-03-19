@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_STUDENTS, RECEIVE_MENTORS } from './actions';
+import { RECEIVE_STUDENTS, RECEIVE_MENTORS, RECEIVE_AREAS } from './actions';
 
 function students(state = [], action) {
     switch (action.type) {
@@ -19,9 +19,19 @@ function mentors(state = [], action) {
     }
 }
 
+function areas(state = [], action) {
+    switch (action.type) {
+        case RECEIVE_AREAS:
+            return [...action.areas];
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     students,
-    mentors
+    mentors,
+    areas
 });
 
 export default rootReducer;
