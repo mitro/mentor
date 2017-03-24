@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { push } from 'react-router-redux';
 
 export const RECEIVE_STUDENTS = 'RECEIVE_STUDENTS';
 export const RECEIVE_MENTORS = 'RECEIVE_MENTORS';
@@ -17,7 +18,7 @@ export function fetchStudents() {
     return (dispatch, getState) => {
         const { auth } = getState();
 
-        return fetch('http://localhost:3000/api/student', {
+        fetch('http://localhost:3000/api/student', {
             headers: {
                 'Authorization': `Bearer ${auth.jwt}`
             }})
@@ -28,12 +29,15 @@ export function fetchStudents() {
 
 export function registerStudent(student) {
     return dispatch => {
-        return fetch('http://localhost:3000/api/student', {
+        fetch('http://localhost:3000/api/student', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(student)
+            })
+            .then(response => {
+                dispatch(push('/'));
             });
     };
 }
@@ -49,7 +53,7 @@ export function fetchMentors() {
     return (dispatch, getState) => {
         const { auth } = getState();
 
-        return fetch('http://localhost:3000/api/mentor', {
+        fetch('http://localhost:3000/api/mentor', {
             headers: {
                 'Authorization': `Bearer ${auth.jwt}`
             }})
@@ -60,13 +64,16 @@ export function fetchMentors() {
 
 export function registerMentor(mentor) {
     return dispatch => {
-        return fetch ('http://localhost:3000/api/mentor', {
+        fetch('http://localhost:3000/api/mentor', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(mentor)
-        });
+        })
+            .then(response => {
+                dispatch(push('/'));
+            });
     };
 }
 
@@ -79,7 +86,7 @@ function receiveAreas(json) {
 
 export function fetchAreas() {
     return dispatch => {
-        return fetch('http://localhost:3000/api/area')
+        fetch('http://localhost:3000/api/area')
             .then(response => response.json())
             .then(json => dispatch(receiveAreas(json)));
     }
@@ -123,6 +130,7 @@ export function submitUserCredentials(login, password) {
                 const jwt = json.token;
                 console.log(json);
                 dispatch(processLoginSuccess(jwt));
+                dispatch(push('/'));
             })
             .catch(err => {
                 dispatch(processLoginFailure());

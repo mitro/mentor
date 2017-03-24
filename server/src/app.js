@@ -24,11 +24,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(jwt({secret: 'doitagain'}).unless(req => {
+    console.log(req.originalUrl + ' ' + req.method);
     return (
         req.originalUrl == '/api/auth/login' ||
         req.originalUrl == '/api/area' && req.method == 'GET' ||
         req.originalUrl == '/api/mentor' && req.method == 'POST' ||
-        req.originalUrl == '/api/student' && req.method == 'POST'
+        req.originalUrl == '/api/mentor' && req.method == 'OPTIONS' ||
+        req.originalUrl == '/api/student' && req.method == 'POST' ||
+        req.originalUrl == '/api/student' && req.method == 'OPTIONS'
     );
 }));
 
