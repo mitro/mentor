@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
+import cookie from 'react-cookie';
 
 export const RECEIVE_STUDENTS = 'RECEIVE_STUDENTS';
 export const RECEIVE_MENTORS = 'RECEIVE_MENTORS';
@@ -20,7 +21,7 @@ export function fetchStudents() {
 
         fetch('http://localhost:3000/api/student', {
             headers: {
-                'Authorization': `Bearer ${auth.jwt}`
+                'Authorization': `Bearer ${cookie.load('token')}`
             }})
             .then(response => response.json())
             .then(json => dispatch(receiveStudents(json)));
@@ -55,7 +56,7 @@ export function fetchMentors() {
 
         fetch('http://localhost:3000/api/mentor', {
             headers: {
-                'Authorization': `Bearer ${auth.jwt}`
+                'Authorization': `Bearer ${cookie.load('token')}`
             }})
             .then(response => response.json())
             .then(json => dispatch(receiveMentors(json)));
@@ -128,7 +129,7 @@ export function submitUserCredentials(login, password) {
             })
             .then(json => {
                 const jwt = json.token;
-                console.log(json);
+                cookie.save('token', jwt, { path: '/' });
                 dispatch(processLoginSuccess(jwt));
                 dispatch(push('/'));
             })
