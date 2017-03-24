@@ -1,5 +1,6 @@
 'use strict';
 
+const config = require('config');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
@@ -17,7 +18,7 @@ module.exports.login = (req, res) => {
             }
 
             const payload = {id: user._id};
-            var token = jwt.sign(payload, 'doitagain');
+            var token = jwt.sign(payload, config.JwtSecret, { expiresIn : 12 * 60 * 60 });
 
             res.json({
                 message: 'ok',

@@ -16,12 +16,10 @@ function receiveStudents(json) {
 }
 
 export function fetchStudents() {
-    return (dispatch, getState) => {
-        const { auth } = getState();
-
+    return (dispatch) => {
         fetch('http://localhost:3000/api/student', {
             headers: {
-                'Authorization': `Bearer ${cookie.load('token')}`
+                'Authorization': `JWT ${cookie.load('token')}`
             }})
             .then(response => response.json())
             .then(json => dispatch(receiveStudents(json)));
@@ -51,12 +49,10 @@ function receiveMentors(json) {
 }
 
 export function fetchMentors() {
-    return (dispatch, getState) => {
-        const { auth } = getState();
-
+    return (dispatch) => {
         fetch('http://localhost:3000/api/mentor', {
             headers: {
-                'Authorization': `Bearer ${cookie.load('token')}`
+                'Authorization': `JWT ${cookie.load('token')}`
             }})
             .then(response => response.json())
             .then(json => dispatch(receiveMentors(json)));

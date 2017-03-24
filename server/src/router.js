@@ -15,15 +15,17 @@ const mentor = require('./controllers/mentor');
 const student = require('./controllers/student');
 const area = require('./controllers/area');
 
+const requireJwt = require('./jwt');
+
 module.exports = function (app) {
     statusRouter.get('/', status.status);
 
     authRouter.post('/login', auth.login);
 
-    mentorRouter.get('/', mentor.list);
+    mentorRouter.get('/', requireJwt, mentor.list);
     mentorRouter.post('/', mentor.create);
 
-    studentRouter.get('/', student.list);
+    studentRouter.get('/', requireJwt, student.list);
     studentRouter.post('/', student.create);
 
     areaRouter.get('/', area.list);
