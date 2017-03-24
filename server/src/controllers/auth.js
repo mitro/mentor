@@ -1,11 +1,10 @@
 'use strict';
 
-const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-router.post('/login', (req, res) => {
+module.exports.login = (req, res) => {
     const login = req.body.login;
     const password = req.body.password;
 
@@ -28,6 +27,4 @@ router.post('/login', (req, res) => {
         .catch((err) => {
             res.send(err);
         });
-});
-
-module.exports = router;
+};

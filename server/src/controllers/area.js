@@ -1,9 +1,8 @@
 'use strict';
 
-const router = require('express').Router();
 const Area = require('../models/area');
 
-router.get('/', (req, res) => {
+module.exports.list = (req, res) => {
     Area.find({})
         .then(areas => {
             res.json(areas);
@@ -11,9 +10,9 @@ router.get('/', (req, res) => {
         .catch(err => {
             res.send(err);
         });
-});
+};
 
-router.post('/', (req, res) => {
+module.exports.create = (req, res) => {
     const area = new Area();
     area.name = req.body.name;
 
@@ -26,6 +25,4 @@ router.post('/', (req, res) => {
         .catch((err) => {
             res.send(err);
         });
-});
-
-module.exports = router;
+};

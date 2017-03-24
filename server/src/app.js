@@ -2,11 +2,12 @@
 
 const express = require('express');
 const jwt = require('express-jwt');
-const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const config = require('config');
 const morgan = require('morgan');
+
+const router = require('./router');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.DbHost);
@@ -35,13 +36,7 @@ app.use(jwt({secret: 'doitagain'}).unless(req => {
     );
 }));
 
-router.use('/status', require('./controllers/status'));
-router.use('/area', require('./controllers/area'));
-router.use('/mentor', require('./controllers/mentor'));
-router.use('/student', require('./controllers/student'));
-router.use('/auth', require('./controllers/auth'));
-
-app.use('/api', router);
+router(app);
 
 app.listen(3000, () => {
     console.log('Listening on 3000...');

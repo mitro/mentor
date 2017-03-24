@@ -1,11 +1,10 @@
 'use strict';
 
-const router = require('express').Router();
 const Types = require('mongoose').Types;
 const User = require('../models/user');
 const Mentor = require('../models/mentor');
 
-router.get('/', (req, res) => {
+module.exports.list = (req, res) => {
     Mentor.find({})
         .populate('areaIds')
         .then((mentors) => {
@@ -22,9 +21,9 @@ router.get('/', (req, res) => {
         .catch((err) => {
             res.send(err);
         });
-});
+};
 
-router.post('/', (req, res) => {
+module.exports.create = (req, res) => {
     const user = new User();
 
     user.login = req.body.login;
@@ -49,6 +48,4 @@ router.post('/', (req, res) => {
         .catch((err) => {
             res.send(err);
         });
-});
-
-module.exports = router;
+};

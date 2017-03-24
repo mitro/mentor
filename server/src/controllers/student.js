@@ -1,10 +1,9 @@
 'use strict';
 
-const router = require('express').Router();
 const User = require('../models/user');
 const Student = require('../models/student');
 
-router.get('/', (req, res) => {
+module.exports.list = (req, res) => {
     Student.find({})
         .then((users) => {
             res.json(users);
@@ -12,9 +11,9 @@ router.get('/', (req, res) => {
         .catch((err) => {
             res.send(err);
         });
-});
+};
 
-router.post('/', (req, res) => {
+module.exports.create = (req, res) => {
     console.log(req.body);
     const user = new User();
     user.login = req.body.login;
@@ -39,6 +38,4 @@ router.post('/', (req, res) => {
         .catch((err) => {
             res.send(err);
         });
-});
-
-module.exports = router;
+};
