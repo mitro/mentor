@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import { reducer as formReducer } from 'redux-form';
 import { RECEIVE_STUDENTS, RECEIVE_MENTORS, RECEIVE_AREAS, PROCESS_LOGIN_SUCCESS, PROCESS_LOGIN_FAILURE } from './actions';
 
 function students(state = [], action) {
@@ -51,7 +52,8 @@ const rootReducer = combineReducers({
     mentors,
     areas,
     auth,
-    router: routerReducer
+    router: routerReducer,
+    form: formReducer
 });
 
 export default rootReducer;
