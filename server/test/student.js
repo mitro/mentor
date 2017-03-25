@@ -1,7 +1,10 @@
 'use strict';
 
+const config = require('config');
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Student = require('../src/models/student');
+const User = require('../src/models/user');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -12,10 +15,26 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('Students', () => {
+    let token;
+
     beforeEach((done) => {
-        Student.remove({}, (err) => {
-            done();
-        });
+        Promise.all([
+            Student.remove({}),
+            User.remove({})
+        ])
+            .then(() => {
+                const user = new User({
+                    login: 'a'
+                });
+
+                return user.save();
+            })
+            .then(user => {
+                token = jwt.sign({id: user._id}, config.JwtSecret);
+            })
+            .then(() => {
+                done();
+            });
     });
 
     describe('GET /api/student', () => {
@@ -28,6 +47,7 @@ describe('Students', () => {
                 .then(() => {
                     chai.request(app)
                         .get('/api/student')
+                        .set('Authorization', `JWT ${token}`)
                         .end((err, res) => {
                             res.should.have.status(200);
                             res.body.should.be.a('array');

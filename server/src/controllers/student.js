@@ -14,7 +14,6 @@ module.exports.list = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
-    console.log(req.body);
     const user = new User();
     user.login = req.body.login;
     user.password = req.body.password;
