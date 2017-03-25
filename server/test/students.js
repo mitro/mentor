@@ -37,7 +37,7 @@ describe('Students', () => {
             });
     });
 
-    describe('GET /api/student', () => {
+    describe('GET /api/students', () => {
         it('should list students', (done) => {
             const student = new Student();
             student.name = 'Ivan';
@@ -46,7 +46,7 @@ describe('Students', () => {
             student.save()
                 .then(() => {
                     chai.request(app)
-                        .get('/api/student')
+                        .get('/api/students')
                         .set('Authorization', `JWT ${token}`)
                         .end((err, res) => {
                             res.should.have.status(200);

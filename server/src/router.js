@@ -11,9 +11,9 @@ const areaRouter = Router();
 
 const status = require('./controllers/status');
 const auth = require('./controllers/auth');
-const mentor = require('./controllers/mentor');
-const student = require('./controllers/student');
-const area = require('./controllers/area');
+const mentors = require('./controllers/mentors');
+const students = require('./controllers/students');
+const areas = require('./controllers/areas');
 
 const requireJwt = require('./jwt');
 
@@ -22,19 +22,19 @@ module.exports = function (app) {
 
     authRouter.post('/login', auth.login);
 
-    mentorRouter.get('/', requireJwt, mentor.list);
-    mentorRouter.post('/', mentor.create);
+    mentorRouter.get('/', requireJwt, mentors.list);
+    mentorRouter.post('/', mentors.create);
 
-    studentRouter.get('/', requireJwt, student.list);
-    studentRouter.post('/', student.create);
+    studentRouter.get('/', requireJwt, students.list);
+    studentRouter.post('/', students.create);
 
-    areaRouter.get('/', area.list);
+    areaRouter.get('/', areas.list);
 
     apiRouter.use('/status', statusRouter);
     apiRouter.use('/auth', authRouter);
-    apiRouter.use('/mentor', mentorRouter);
-    apiRouter.use('/student', studentRouter);
-    apiRouter.use('/area', areaRouter);
+    apiRouter.use('/mentors', mentorRouter);
+    apiRouter.use('/students', studentRouter);
+    apiRouter.use('/areas', areaRouter);
 
     app.use('/api', apiRouter);
 }

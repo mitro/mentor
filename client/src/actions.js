@@ -17,7 +17,7 @@ function receiveStudents(json) {
 
 export function fetchStudents() {
     return (dispatch) => {
-        fetch('http://localhost:3000/api/student', {
+        fetch('http://localhost:3000/api/students', {
             headers: {
                 'Authorization': `JWT ${cookie.load('token')}`
             }})
@@ -28,7 +28,7 @@ export function fetchStudents() {
 
 export function registerStudent(student) {
     return dispatch => {
-        fetch('http://localhost:3000/api/student', {
+        fetch('http://localhost:3000/api/students', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ function receiveMentors(json) {
 
 export function fetchMentors() {
     return (dispatch) => {
-        fetch('http://localhost:3000/api/mentor', {
+        fetch('http://localhost:3000/api/mentors', {
             headers: {
                 'Authorization': `JWT ${cookie.load('token')}`
             }})
@@ -61,7 +61,7 @@ export function fetchMentors() {
 
 export function registerMentor(mentor) {
     return dispatch => {
-        fetch('http://localhost:3000/api/mentor', {
+        fetch('http://localhost:3000/api/mentors', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ function receiveAreas(json) {
 
 export function fetchAreas() {
     return dispatch => {
-        fetch('http://localhost:3000/api/area')
+        fetch('http://localhost:3000/api/areas')
             .then(response => response.json())
             .then(json => dispatch(receiveAreas(json)));
     }

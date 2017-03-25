@@ -39,17 +39,17 @@ describe('Mentors', () => {
             });
     });
 
-    describe('POST /api/mentor', () => {
+    describe('POST /api/mentors', () => {
         it('should register a mentor', (done) => {
             const mentor = {
-                login: 'mentor',
+                login: 'mentors',
                 password: 'pswd',
                 name: 'ivan',
                 email: 'email',
                 areaIds: []
             };
             chai.request(app)
-                .post('/api/mentor')
+                .post('/api/mentors')
                 .send(mentor)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -60,7 +60,7 @@ describe('Mentors', () => {
         });
     });
 
-    describe('GET /api/mentor', () => {
+    describe('GET /api/mentors', () => {
         it('should list mentors', (done) => {
             const mlArea = new Area();
             mlArea.name  = "Machine learning";
@@ -80,7 +80,7 @@ describe('Mentors', () => {
                 })
                 .then(() => {
                     chai.request(app)
-                        .get('/api/mentor')
+                        .get('/api/mentors')
                         .set('Authorization', `JWT ${token}`)
                         .end((err, res) => {
                             res.should.have.status(200);

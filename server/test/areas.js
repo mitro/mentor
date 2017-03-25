@@ -14,7 +14,7 @@ describe('Areas', () => {
         Area.remove({}, err => done());
     });
 
-    describe('GET /api/area', () => {
+    describe('GET /api/areas', () => {
         it('should list areas', done => {
             const area = new Area({
                 name: 'Software'
@@ -23,7 +23,7 @@ describe('Areas', () => {
             area.save()
                 .then(() => {
                     chai.request(app)
-                        .get('/api/area')
+                        .get('/api/areas')
                         .end((err, res) => {
                             res.should.have.status(200);
                             res.body.should.be.a('array');
