@@ -43,8 +43,4 @@ class MainLayout extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return { };
-}
-
-export default connect(mapStateToProps)(MainLayout);
+export default connect()(MainLayout);

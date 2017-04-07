@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const config = require('config');
 const morgan = require('morgan');
+const passport = require('passport');
 
 const router = require('./router');
 

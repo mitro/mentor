@@ -1,7 +1,5 @@
 'use strict';
 
-process.env.NODE_ENV = 'test';
-
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
