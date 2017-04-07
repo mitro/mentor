@@ -29,15 +29,6 @@ class LoginForm extends Component {
                 <label>Password</label>
                 <input type='password' name='password' id='password'/><br/>
                 <input type='submit' value='Login'/>
-                {isLoggedIn &&
-                    <div>
-                        <div>Logged in!</div>
-                        <div>{jwt}</div>
-                    </div>
-                }
-                {loginFailed &&
-                    <div>Login failed</div>
-                }
             </form>
         );
     }

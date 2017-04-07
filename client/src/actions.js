@@ -127,10 +127,17 @@ export function submitUserCredentials(login, password) {
                 const jwt = json.token;
                 cookie.save('token', jwt, { path: '/' });
                 dispatch(processLoginSuccess(jwt));
-                dispatch(push('/'));
+                dispatch(push('/feed'));
             })
             .catch(err => {
                 dispatch(processLoginFailure());
             });
+    }
+}
+
+export function logout() {
+    return dispatch => {
+        cookie.remove('token');
+        dispatch(push('/landing'));
     }
 }
