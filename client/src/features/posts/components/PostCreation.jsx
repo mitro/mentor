@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import PostCreationForm from './PostCreationForm.jsx';
-import { submitPost } from './actions';
+import { submitPost } from '../actions';
 
 class PostCreation extends Component {
     handleSubmit(values) {

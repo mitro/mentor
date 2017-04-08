@@ -13,14 +13,14 @@ export function submitPost(post) {
             },
             body: JSON.stringify(post)
         })
-            .then(response => response.json)
+            .then(response => response.json())
             .then(json => dispatch(receivePost(json)));
     }
 }
 
-export function receivePost(post) {
+function receivePost(post) {
     return {
         type: RECEIVE_POST,
         post
-    }
+    };
 }

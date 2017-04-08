@@ -9,6 +9,7 @@ const mentorRouter = Router();
 const studentRouter = Router();
 const areaRouter = Router();
 const postRouter = Router();
+const feedRouter = Router();
 
 const status = require('./controllers/status');
 const auth = require('./controllers/auth');
@@ -16,6 +17,7 @@ const mentors = require('./controllers/mentors');
 const students = require('./controllers/students');
 const areas = require('./controllers/areas');
 const posts = require('./controllers/posts');
+const feed = require('./controllers/feed');
 
 const requireJwt = require('./jwt');
 
@@ -34,12 +36,15 @@ module.exports = function (app) {
 
     postRouter.post('/', requireJwt, posts.create);
 
+    feedRouter.get('/', requireJwt, feed.list);
+
     apiRouter.use('/status', statusRouter);
     apiRouter.use('/auth', authRouter);
     apiRouter.use('/mentors', mentorRouter);
     apiRouter.use('/students', studentRouter);
     apiRouter.use('/areas', areaRouter);
     apiRouter.use('/posts', postRouter);
+    apiRouter.use('/feed', feedRouter);
 
     app.use('/api', apiRouter);
 }

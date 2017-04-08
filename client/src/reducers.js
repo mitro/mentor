@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
+
 import { RECEIVE_STUDENTS, RECEIVE_MENTORS, RECEIVE_AREAS, PROCESS_LOGIN_SUCCESS, PROCESS_LOGIN_FAILURE } from './actions';
+import feed from './features/feed/reducer';
 
 function students(state = [], action) {
     switch (action.type) {
@@ -52,6 +54,7 @@ const rootReducer = combineReducers({
     mentors,
     areas,
     auth,
+    feed,
     router: routerReducer,
     form: formReducer
 });

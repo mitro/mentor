@@ -13,7 +13,7 @@ import rootReducer from './reducers';
 import MainLayout from './components/MainLayout.jsx';
 import LandingLayout from './components/LandingLayout.jsx';
 import Landing from './components/Landing.jsx';
-import Feed from './components/Feed.jsx';
+import Feed from './features/feed/components/Feed.jsx';
 import Students from './components/Students.jsx';
 import Mentors from './components/Mentors.jsx';
 import StudentRegistration from './components/StudentRegistration.jsx';
