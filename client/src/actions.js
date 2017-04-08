@@ -1,6 +1,8 @@
-import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 import cookie from 'react-cookie';
+
+import publicApi from './utils/publicApi';
+import protectedApi from './utils/protectedApi';
 
 export const RECEIVE_STUDENTS = 'RECEIVE_STUDENTS';
 export const RECEIVE_MENTORS = 'RECEIVE_MENTORS';
@@ -17,24 +19,15 @@ function receiveStudents(json) {
 
 export function fetchStudents() {
     return (dispatch) => {
-        fetch('http://localhost:3000/api/students', {
-            headers: {
-                'Authorization': `JWT ${cookie.load('token')}`
-            }})
-            .then(response => response.json())
+        protectedApi().get('/students')
+            .then(response => response.data)
             .then(json => dispatch(receiveStudents(json)));
     }
 }
 
 export function registerStudent(student) {
     return dispatch => {
-        fetch('http://localhost:3000/api/students', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(student)
-            })
+        publicApi().post('/students', student)
             .then(response => {
                 dispatch(push('/'));
             });
@@ -50,24 +43,15 @@ function receiveMentors(json) {
 
 export function fetchMentors() {
     return (dispatch) => {
-        fetch('http://localhost:3000/api/mentors', {
-            headers: {
-                'Authorization': `JWT ${cookie.load('token')}`
-            }})
-            .then(response => response.json())
+        protectedApi().get('/mentors')
+            .then(response => response.data)
             .then(json => dispatch(receiveMentors(json)));
     }
 }
 
 export function registerMentor(mentor) {
     return dispatch => {
-        fetch('http://localhost:3000/api/mentors', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(mentor)
-        })
+        publicApi().post('/mentors', mentor)
             .then(response => {
                 dispatch(push('/'));
             });
@@ -83,8 +67,8 @@ function receiveAreas(json) {
 
 export function fetchAreas() {
     return dispatch => {
-        fetch('http://localhost:3000/api/areas')
-            .then(response => response.json())
+        publicApi().get('/areas')
+            .then(response => response.data)
             .then(json => dispatch(receiveAreas(json)));
     }
 }
@@ -104,19 +88,14 @@ function processLoginFailure() {
 
 export function submitUserCredentials(login, password) {
     return dispatch => {
-        fetch('http://localhost:3000/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        publicApi().post('/auth/login', {
                 login: login,
                 password: password
             })
-        })
             .then(res => {
+                console.log(res);
                 if (res.status == 200) {
-                    return res.json();
+                    return res.data;
                 }
 
                 var error = new Error(res.statusText);

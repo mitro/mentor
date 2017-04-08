@@ -1,16 +1,11 @@
-import fetch from 'isomorphic-fetch';
-import cookie from 'react-cookie';
+import protectedApi from '../../utils/protectedApi';
 
 export const RECEIVE_FEED = 'RECEIVE_FEED';
 
 export function fetchFeed() {
     return dispatch => {
-        fetch('http://localhost:3000/api/feed', {
-            headers: {
-                'Authorization': `JWT ${cookie.load('token')}`
-            }
-        })
-            .then(response => response.json())
+        protectedApi().get('/feed')
+            .then(response => response.data)
             .then(posts => dispatch(receiveFeed(posts)));
     }
 }

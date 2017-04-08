@@ -1,19 +1,11 @@
-import fetch from 'isomorphic-fetch';
-import cookie from 'react-cookie';
+import protectedApi from '../../utils/protectedApi';
 
 export const RECEIVE_POST = 'RECEIVE_POST'
 
 export function submitPost(post) {
     return dispatch => {
-        fetch('http://localhost:3000/api/posts', {
-            method: 'POST',
-            headers: {
-                'Authorization': `JWT ${cookie.load('token')}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(post)
-        })
-            .then(response => response.json())
+        protectedApi().post('/posts', post)
+            .then(response => response.data)
             .then(json => dispatch(receivePost(json)));
     }
 }
