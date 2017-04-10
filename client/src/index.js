@@ -55,10 +55,3 @@ render(
 );
 
 var token = cookie.load('token');
-
-// if (token){
-//     history.push('/feed');
-// }
-// else {
-//     history.push('/landing');
-// }

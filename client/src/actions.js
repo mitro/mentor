@@ -18,19 +18,16 @@ function receiveStudents(json) {
 }
 
 export function fetchStudents() {
-    return (dispatch) => {
-        protectedApi().get('/students')
-            .then(response => response.data)
-            .then(json => dispatch(receiveStudents(json)));
+    return async dispatch => {
+        const response = await protectedApi().get('/students');
+        dispatch(receiveStudents(response.data));
     }
 }
 
 export function registerStudent(student) {
-    return dispatch => {
-        publicApi().post('/students', student)
-            .then(response => {
-                dispatch(push('/'));
-            });
+    return async dispatch => {
+        await publicApi().post('/students', student);
+        dispatch(push('/'));
     };
 }
 
@@ -42,19 +39,17 @@ function receiveMentors(json) {
 }
 
 export function fetchMentors() {
-    return (dispatch) => {
-        protectedApi().get('/mentors')
-            .then(response => response.data)
-            .then(json => dispatch(receiveMentors(json)));
+    return async dispatch => {
+        const response = await protectedApi().get('/mentors');
+
+        dispatch(receiveMentors(response.data));
     }
 }
 
 export function registerMentor(mentor) {
-    return dispatch => {
-        publicApi().post('/mentors', mentor)
-            .then(response => {
-                dispatch(push('/'));
-            });
+    return async dispatch => {
+        await publicApi().post('/mentors', mentor);
+        dispatch(push('/'));
     };
 }
 
@@ -66,10 +61,9 @@ function receiveAreas(json) {
 }
 
 export function fetchAreas() {
-    return dispatch => {
-        publicApi().get('/areas')
-            .then(response => response.data)
-            .then(json => dispatch(receiveAreas(json)));
+    return async dispatch => {
+        const response = await publicApi().get('/areas');
+        dispatch(receiveAreas(response.data));
     }
 }
 
@@ -87,30 +81,21 @@ function processLoginFailure() {
 }
 
 export function submitUserCredentials(login, password) {
-    return dispatch => {
-        publicApi().post('/auth/login', {
+    return async dispatch => {
+        const response = await publicApi().post('/auth/login', {
                 login: login,
                 password: password
-            })
-            .then(res => {
-                console.log(res);
-                if (res.status == 200) {
-                    return res.data;
-                }
-
-                var error = new Error(res.statusText);
-                error.response = res;
-                throw error;
-            })
-            .then(json => {
-                const jwt = json.token;
-                cookie.save('token', jwt, { path: '/' });
-                dispatch(processLoginSuccess(jwt));
-                dispatch(push('/feed'));
-            })
-            .catch(err => {
-                dispatch(processLoginFailure());
             });
+
+        if (response.status == 200) {
+            const jwt = response.data.token;
+            cookie.save('token', jwt, { path: '/' });
+            dispatch(processLoginSuccess(jwt));
+            dispatch(push('/feed'));
+        }
+        else {
+            dispatch(processLoginFailure());
+        }
     }
 }
 
